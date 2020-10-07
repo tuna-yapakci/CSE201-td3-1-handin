@@ -111,11 +111,36 @@ bool simulate_projectile(const double magnitude, const double angle,
   return hit_target;
 }
 
+void sort(double *array, const int length) {
+    for (int j = 0; j < length; j += 1){
+        for (int i = 0; i < length - 3; i += 3){
+            if (array[i] > array[i+3]){
+                double tmp = array[i+3];
+                array[i+3] = array[i];
+                array[i] = tmp;
+                tmp = array[i+4];
+                array[i+4] = array[i+1];
+                array[i+1] = tmp;
+                tmp = array[i+5];
+                array[i+5] = array[i+2];
+                array[i+2] = tmp;
+            }
+        }
+    }
+}
+
 void merge_telemetry(double **telemetries,
                      int tot_telemetries,
                      int *telemetries_sizes,
                      double* &telemetry,
                      int &telemetry_current_size,
                      int &telemetry_max_size) {
-  // IMPLEMENT YOUR FUNCTION HERE
+  telemetry_current_size = 0;
+  telemetry_max_size = 0;
+  for (int i = 0; i < tot_telemetries; i++){
+      for (int j = 0; j < telemetries_sizes[i]; j++){
+          telemetry = append_to_array(telemetries[i][j], telemetry, telemetry_current_size, telemetry_max_size);
+      }
+  }
+  sort(telemetry, telemetry_current_size);
 }
